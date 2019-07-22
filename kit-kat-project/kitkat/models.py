@@ -2,6 +2,9 @@ import datetime as dt
 
 from django.db import models
 from django.db.models import fields
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -17,13 +20,14 @@ TEAM_CHOICES = [
     (SALE, 'Sales')
 ]
 
-class User(models.Model):
+class Profile(models.Model):
     EMP = 'EMP'
     MAN = 'MAN'
     USER_TYPE_CHOICES = [
         (EMP, 'Employee'),
         (MAN, 'Manager')
     ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     team = models.CharField(max_length=50, choices=TEAM_CHOICES)
@@ -32,15 +36,25 @@ class User(models.Model):
     def __str__(self):
         return f"{self.last_name, self.first_name}"
 
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            User.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.save()
+
+
 class Team(models.Model):
     name = models.CharField(max_length=25, choices=TEAM_CHOICES)
-    manager = models.OneToOneField('User', on_delete=models.CASCADE, related_name='manager_of')
+    manager = models.OneToOneField('Profile', on_delete=models.CASCADE, related_name='manager_of')
 
     def __str__(self):
         return self.name
 
 class Request(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    user = models.ForeignKey('Profile', on_delete=models.CASCADE)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     hours = models.IntegerField(blank=True)
