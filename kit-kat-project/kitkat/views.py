@@ -1,10 +1,10 @@
 # import datetime as dt
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
 # from django.views import generic
 # from django.contrib.auth.mixins import LoginRequiredMixin
-
+from .forms import SignUpForm
 from .models import Request
 
 
@@ -15,14 +15,18 @@ def home(request):
 
 
 def signup(request):
-    #todo: add more fields to form for team and employee type
+    # todo: add more fields to form for team and employee type
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, 'auth/signup.html', {
         "form": form
     })

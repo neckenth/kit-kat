@@ -20,16 +20,17 @@ TEAM_CHOICES = [
     (SALE, 'Sales')
 ]
 
+EMP = 'EMP'
+MAN = 'MAN'
+USER_TYPE_CHOICES = [
+    (EMP, 'Employee'),
+    (MAN, 'Manager')
+]
+
 User = settings.AUTH_USER_MODEL
 
-
 class Profile(models.Model):
-    EMP = 'EMP'
-    MAN = 'MAN'
-    USER_TYPE_CHOICES = [
-        (EMP, 'Employee'),
-        (MAN, 'Manager')
-    ]
+
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="profile")
     first_name = models.CharField(max_length=50, blank=True)
