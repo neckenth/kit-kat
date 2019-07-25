@@ -9,10 +9,8 @@ class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
     email = forms.EmailField(max_length=200, required=True)
-    team = forms.MultipleChoiceField(
-        widget=forms.RadioSelect, choices=TEAM_CHOICES)
-    user_type = forms.MultipleChoiceField(
-        widget=forms.RadioSelect, choices=USER_TYPE_CHOICES)
+    team = forms.CharField(widget=forms.Select(choices=TEAM_CHOICES))
+    user_type = forms.CharField(widget=forms.Select(choices=USER_TYPE_CHOICES))
 
     class Meta(UserCreationForm.Meta):
         model = User
