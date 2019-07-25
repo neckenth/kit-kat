@@ -29,6 +29,7 @@ USER_TYPE_CHOICES = [
 
 User = settings.AUTH_USER_MODEL
 
+
 class Profile(models.Model):
 
     user = models.OneToOneField(

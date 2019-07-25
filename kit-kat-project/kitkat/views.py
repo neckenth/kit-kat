@@ -11,11 +11,14 @@ from .models import Request
 # Create your views here.
 
 def home(request):
+    # todo - next piece is to add a button in home
+    # this button should open a page with a form for a new time-off request and set up the PDF and smtp
+    # then the calendar view w/ clickable elements
     return render(request, 'home.html')
 
 
 def signup(request):
-    # todo: add more fields to form for team and employee type
+    # todo - login endpoint
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
