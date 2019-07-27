@@ -2,17 +2,45 @@
 
 {% block content %}
 
-{% if form.errors %}
-<p>Your username and/or password are incorrect. Please try again or click "Forgot my password"</p>
-{% endif %}
+    {% if form.errors %}
+        
+        <p>Your username and/or password are incorrect. Please try again or click "Forgot my password"</p>
 
-<h2>Login</h2>
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-{{ form.as_p}}
-<button type="submit">Login</button>
-</form>
+    {% endif %}
 
-<p><a href="{% url 'password_reset' %}">Forgot my password</a></p>
+    {% if next %}
+        
+        {% if user.is_authenticated %}
+
+            <p>Your account doesn't have access to this page.</p>
+        
+        {% else %}
+            
+            <p>Please login to see this page.</p>
+        
+        {% endif %}
+    
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    
+    <table>
+        <tr>
+            <td>{{ form.username.label_tag }}</td>
+            <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+        </tr>
+    </table>
+
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+
+    </form>
+
+    <p><a href="{% url 'password_reset' %}">Forgot my password</a></p>
 
 {% endblock %}
