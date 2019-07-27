@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if form.errors %}
+<p>Your username and/or password are incorrect. Please try again or click "Forgot my password"</p>
+{% endif %}
+
+<h2>Login</h2>
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+{{ form.as_p}}
+<button type="submit">Login</button>
+</form>
+
+<p><a href="{% url 'password_reset' &}">Forgot my password</a></p>
+
+{% endblock %}

@@ -18,7 +18,6 @@ def home(request):
 
 
 def signup(request):
-    # todo - login endpoint
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -30,7 +29,7 @@ def signup(request):
             return redirect('home')
     else:
         form = SignUpForm()
-    return render(request, 'auth/signup.html', {
+    return render(request, 'registration/signup.html', {
         "form": form
     })
 
