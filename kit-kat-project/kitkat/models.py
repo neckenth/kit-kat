@@ -59,6 +59,7 @@ class Request(models.Model):
     end_date = models.DateTimeField()
     hours = models.IntegerField(blank=True)
     note = models.CharField(max_length=400, blank=True)
+    approved = models.BooleanField(default=False)
 
     def __str__(self):
         return f"request # {self.id} by {self.user.first_name}"

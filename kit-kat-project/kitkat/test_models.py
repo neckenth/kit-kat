@@ -17,7 +17,6 @@ class UserModelTests(TestCase):
         When a User object is created, a Profile object should be created in tandem with same data
         """
         profile = add_user()[1]
-        # profile = Profile.objects.get(first_name="tester", last_name="mctestface")
         assert profile is not None
 
 
