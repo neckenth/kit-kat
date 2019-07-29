@@ -58,6 +58,7 @@ class Request(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     hours = models.IntegerField(blank=True)
+    note = models.CharField(max_length=400, blank=True)
 
     def __str__(self):
         return f"request # {self.id} by {self.user.first_name}"
@@ -74,7 +75,7 @@ class Request(models.Model):
         return self.start_date >= dt.datetime.now()
 
     def clean(self):
-        if self.start_date > self.end_date:
+        if self.start_date >= self.end_date:
             raise ValidationError(
                 "End date for time-off request must be after start date")
 

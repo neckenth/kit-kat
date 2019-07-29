@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="/kitkat/requests/new/" method="post">
+
+{% csrf_token %}
+<label for="start_date">Start of time-off: </label>
+<input id="start_date" type="date" name="start_date" value="">
+
+<label for="end_date">End of time-off: </label>
+<input id="end_date" type="date" name="end_date" value="">
+
+<label for="note">Optional note: </label>
+<input id="note" type="text" name="note" value="">
+
+<input type="submit" value="Submit">
+</form>
+{% endblock %}

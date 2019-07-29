@@ -1,15 +1,15 @@
 # import datetime as dt
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from django.http import HttpResponse
-# from django.views import generic
-# from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import SignUpForm
-from .models import Request
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
+from .forms import SignUpForm, TimeOffRequestForm
+from .models import Request, Profile
 
 
 # Create your views here.
 
+@login_required
 def home(request):
     # todo - next piece is to add a button in home
     # this button should open a page with a form for a new time-off request and set up the PDF and smtp
@@ -34,6 +34,21 @@ def signup(request):
     })
 
 
+@login_required
+def new_request(request):
+    if request.method == "POST":
+        form = TimeOffRequestForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = Profile.objects.get(user=request.user)
+            instance.save()
+            return HttpResponseRedirect('/kitkat/')
+    else:
+        form = TimeOffRequestForm()
+    return render(request, 'request_form.html', {'form': form})
+
+
+# def view_requests(request):
 # def index(request):
 #     my_requests = Request.objects.order_by('-start_date')[:10]
 #     output = ', '.join(

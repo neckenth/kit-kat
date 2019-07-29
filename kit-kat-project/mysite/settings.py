@@ -141,3 +141,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/kitkat'
+
+LOGIN_URL = '/kitkat/auth/login'

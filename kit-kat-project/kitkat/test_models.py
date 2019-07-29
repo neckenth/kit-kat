@@ -1,29 +1,14 @@
 import datetime as dt
 import pytest
-from typing import Tuple
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 
-from .models import Profile, Request
+from .models import Request
+
+from .conftest import add_user
 
 User = get_user_model()
-# Create your tests here.
-
-
-def add_user() -> Tuple[User, Profile]:
-    """
-    Since Users and Profiles are created in tandem and are related to other 
-    models as ForeignKeys, return a Tuple of both instances
-    """
-    user = User.objects.create(
-        first_name="tester", last_name="mctestface", username="test@test.com")
-    return (
-        user,
-        Profile.objects.get(
-            first_name=user.first_name, last_name=user.last_name
-        )
-    )
 
 
 class UserModelTests(TestCase):
