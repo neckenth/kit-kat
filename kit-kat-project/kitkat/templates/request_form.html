@@ -5,14 +5,13 @@
 <form action="/kitkat/requests/new/" method="post">
 
 {% csrf_token %}
-<label for="start_date">Start of time-off: </label>
-<input id="start_date" type="date" name="start_date" value="">
 
-<label for="end_date">End of time-off: </label>
-<input id="end_date" type="date" name="end_date" value="">
+{% comment %} {{ form.as_p }} {% endcomment %}
 
-<label for="note">Optional note: </label>
-<input id="note" type="text" name="note" value="">
+{{ form.start_date }}
+
+
+{{ form.end_date }}
 
 <input type="submit" value="Submit">
 </form>

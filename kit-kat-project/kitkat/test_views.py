@@ -23,15 +23,22 @@ class RequestViewTests(TestCase):
         self.client.force_login(user=user)
 
         self.client.post(url, data={
-            "start_date": dt.datetime.utcnow(),
-            "end_date": dt.datetime(2019, 12, 26, 5),
+            "start_date": dt.datetime(2019, 7, 29, 9),
+            "end_date": dt.datetime(2019, 8, 1, 9),
             "note": "traveling"
         })
 
         request = Request.objects.get(note="traveling")
 
+        # assert request was created
         assert request is not None
+
+        # assert user is pulled correctly from client
         assert request.user == profile
+        # assert default approval status set
+        assert not request.approved
+        # assert computed business hours are correct
+        assert request.hours == 24
 
 
 # @pytest.fixture()
