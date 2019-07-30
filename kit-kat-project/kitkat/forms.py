@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-from .widgets import XDSoftDateTimePickerInput
+from bootstrap_datepicker_plus import DateTimePickerInput
 from .models import Request
 
 from .models import TEAM_CHOICES, USER_TYPE_CHOICES
@@ -27,9 +27,9 @@ class TimeOffRequestForm(ModelForm):
     class Meta:
         model = Request
         fields = ["start_date", "end_date", "note"]
-        start_date = forms.DateTimeField(
-            input_formats=['%m/%d/%Y %H:%M'], widget=XDSoftDateTimePickerInput())
-        end_date = forms.DateTimeField(
-            input_formats=['%m/%d/%Y %H:%M'], widget=XDSoftDateTimePickerInput())
         note = forms.Textarea()
+        widgets = {
+            'start_date': DateTimePickerInput(format='%m/%d/%Y %H:%M'),
+            'end_date': DateTimePickerInput(format='%m/%d/%Y %H:%M')
+        }
         exclude = ['hours', 'user']

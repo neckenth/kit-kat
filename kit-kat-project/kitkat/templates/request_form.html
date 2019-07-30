@@ -1,17 +1,20 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
+{% comment %} {% bootstrap_css %} {% endcomment %}
+{% comment %} {% bootstrap_javascript jquery='full' %} {% endcomment %}
 
+{% block extrahead %}
+{{ form.media }}
+{% endblock %}
+#
 {% block content %}
+{{ form.media }}
 
 <form action="/kitkat/requests/new/" method="post">
 
 {% csrf_token %}
 
-{% comment %} {{ form.as_p }} {% endcomment %}
-
-{{ form.start_date }}
-
-
-{{ form.end_date }}
+{{ form.as_p }}
 
 <input type="submit" value="Submit">
 </form>
