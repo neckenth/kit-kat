@@ -1,19 +1,13 @@
-# import datetime as dt
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from .forms import SignUpForm, TimeOffRequestForm
-from .models import Profile
+from .models import Profile, Request
 
-
-# Create your views here.
 
 @login_required
 def home(request):
-    # todo - next piece is to add a button in home
-    # this button should open a page with a form for a new time-off request and set up the PDF and smtp
-    # then the calendar view w/ clickable elements
     return render(request, 'home.html')
 
 
@@ -48,18 +42,16 @@ def new_request(request):
     return render(request, 'request_form.html', {'form': form})
 
 
-# def view_requests(request):
-# def index(request):
-#     my_requests = Request.objects.order_by('-start_date')[:10]
-#     output = ', '.join(
-#         [f"{(r.start_date).strftime('%b %d, %Y')}" for r in my_requests])
-#     return HttpResponse(output)
+@login_required
+def index(request):
+    my_requests = Request.objects.filter(
+        user=Profile.objects.get(user=request.user)).order_by('-start_date')
+    # output = ', '.join(
+        # [f"{(r.start_date).strftime('%b %d, %Y')}" for r in my_requests])
+    return render(request, 'requests.html', {"my_requests_list": my_requests})
 
 
-# def detail(request, req_id):
-#     response = f"You're looking at request {req_id}"
-#     return HttpResponse(response)
-
-
-# def new(request):
-#     return HttpResponse("You're looking at the new request page")
+@login_required
+def detail(request, req_id):
+    output = get_object_or_404(Request, pk=req_id)
+    return HttpResponse(output)
