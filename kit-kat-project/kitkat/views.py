@@ -46,12 +46,10 @@ def new_request(request):
 def index(request):
     my_requests = Request.objects.filter(
         user=Profile.objects.get(user=request.user)).order_by('-start_date')
-    # output = ', '.join(
-        # [f"{(r.start_date).strftime('%b %d, %Y')}" for r in my_requests])
     return render(request, 'requests.html', {"my_requests_list": my_requests})
 
 
 @login_required
 def detail(request, req_id):
-    output = get_object_or_404(Request, pk=req_id)
-    return HttpResponse(output)
+    req = get_object_or_404(Request, pk=req_id)
+    return render(request, 'one_request.html', {"this_request": req})

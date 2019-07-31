@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if this_request %}
+
+    <ul>
+    <li>{{this_request.start_date}} - {{this_request.end_date}}</li>
+    <li>{{this_request.note}}</li>
+    <li>{{this_request.approved}}</li>
+    </ul>
+
+    {% else %}
+    <p>No request found</p>
+    {% endif %}
+
+{% endblock %}
