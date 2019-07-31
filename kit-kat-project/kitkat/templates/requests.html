@@ -3,13 +3,13 @@
 {% block content %}
 
     {% if my_requests_list %}
-            <ul>
+        <ul>
             {% for req in my_requests_list %}
                 <li>
                     <a href="{% url 'detail' req.id %}">{{ req.start_date }} - {{ req.end_date }}</a>
                 </li>
             {% endfor %}
-            </ul>
+        </ul>
     {% else %}
         <p>No requests.</p>
     {% endif %}
