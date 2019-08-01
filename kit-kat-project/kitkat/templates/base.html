@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,18 +11,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
+    <link rel="stylesheet" type="text/css" href="{% static 'kitkat/style.css' %}">
     {% block extrahead %}
     {% endblock %}
   
   </head>
   <body>
-    <h1>Kit-Kat App</h1>
-    <div>
-    <a href="{% url 'home' %}">Home</a> /
-    <a href="{% url 'signup' %}">Signup</a>
+  <div id="static-top">
+    <h1 id="app-name">Kit-Kat App</h1>
+    <div id="navbar">
+    <a class="nav" href="{% url 'home' %}">Home</a>
+    <a class="nav" href="{% url 'signup' %}">Signup</a>
+    <a class="nav" href="{% url 'index' %}">My Requests</a>
+    <a class="nav" id="link-logout" href="{% url 'logout' %}">Logout</a>
     </div>
-    <hr />
+    </div>
     {% block content %}
     {% endblock %}
   </body>

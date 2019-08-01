@@ -1,0 +1,43 @@
+body {
+    /* background: white; */
+    /* margin: 1em; */
+    /* padding: 1em; */
+}
+
+#static-top {
+    background: #f3f3f3;
+    margin: none;
+    clear: none;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 2em;
+}
+
+#app-name {
+    color: purple;
+}
+
+#navbar {
+    position: fixed;
+    margin: none;
+    overflow: hidden;
+}
+
+.nav {
+    float: left;
+    padding-right: 7px;
+}
+
+
+.content {
+    padding-left: 1rem;
+}
+
+#link-logout {
+    float: right;
+}
+
+h2 {
+    padding: 1rem;
+}
