@@ -1,14 +1,37 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from datetime import datetime as dt
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.utils.safestring import mark_safe
 from django.http import HttpResponseRedirect
+from django.views import generic
 from .forms import SignUpForm, TimeOffRequestForm
 from .models import Profile, Request
+from .calendar import Calendar
 
 
-@login_required
-def home(request):
-    return render(request, 'home.html')
+def get_date(day):
+    if day:
+        year, month = (int(x) for x in day.split('-'))
+        return dt.date(year, month, day=1)
+    return dt.today()
+
+
+class Home(generic.ListView):
+    model = Request
+    template_name = "home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        d = get_date(self.request.GET.get('day', None))
+
+        cal = Calendar(d.year, d.month)
+        cal.setfirstweekday(6)
+
+        html_cal = cal.formatmonth(withyear=True)
+        context['calendar'] = mark_safe(html_cal)
+        return context
 
 
 def signup(request):

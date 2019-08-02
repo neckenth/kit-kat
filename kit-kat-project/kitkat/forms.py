@@ -26,7 +26,7 @@ class SignUpForm(UserCreationForm):
 class TimeOffRequestForm(ModelForm):
     class Meta:
         model = Request
-        fields = ["start_date", "end_date", "note"]
+        fields = ["title", "start_date", "end_date", "note"]
         note = forms.Textarea()
         widgets = {
             'start_date': DateTimePickerInput(format='%m/%d/%Y %H:%M'),

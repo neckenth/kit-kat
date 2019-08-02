@@ -55,6 +55,7 @@ class Team(models.Model):
 
 class Request(models.Model):
     user = models.ForeignKey('Profile', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, blank=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     hours = models.IntegerField(blank=True)
