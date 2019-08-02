@@ -12,17 +12,21 @@ class Calendar(HTMLCalendar):
         super(Calendar, self).__init__()
 
     def formatday(self, day, requests):
+        print(day)
         requests_per_day = Request.objects.filter(start_date__day=day)
         d = ''
         for request in requests_per_day:
             d += f"<li>{request.title}</li>"
         if day != 0:
+            print(day)
             return f"<td><span class='date'>{day}</span><ul>{d}</ul></td>"
         return '<td></td>'
 
     def formatweek(self, theweek, requests):
         week = ''
+        print(theweek)
         for d, weekday in theweek:
+            # print(d, weekday)
             week += self.formatday(d, requests)
             return f'<tr>{week}</tr>'
 
