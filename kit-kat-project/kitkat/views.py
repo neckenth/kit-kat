@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from datetime import datetime as dt
+from datetime import datetime as dt, date, timedelta
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
@@ -8,30 +8,52 @@ from django.views import generic
 from .forms import SignUpForm, TimeOffRequestForm
 from .models import Profile, Request
 from .calendar import Calendar
+import calendar
 
 
 def get_date(day):
     if day:
         year, month = (int(x) for x in day.split('-'))
-        return dt.date(year, month, day=1)
+        return date(year=year, month=month, day=1)
     return dt.today()
 
 
-class Home(generic.ListView):
+def prev_month(date):
+    first_day_curr_month = date.replace(day=1)
+    last_day_prev_month = first_day_curr_month - timedelta(days=1)
+    return f"month={last_day_prev_month.year}-{last_day_prev_month.month}"
+
+
+def next_month(date):
+    total_days_curr_month = calendar.monthrange(date.year, date.month)[1]
+    first_day_curr_month = date.replace(day=1)
+    first_day_next_month = first_day_curr_month + timedelta(days=total_days_curr_month)
+    return f"month={first_day_next_month.year}-{first_day_next_month.month}"
+
+
+class CalendarView(generic.ListView):
     model = Request
-    template_name = "home.html"
+    template_name = "calendar.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        d = get_date(self.request.GET.get('day', None))
-
+        d = get_date(self.request.GET.get('month', None))
+        
+        context['prev_month'] = prev_month(d)
+        context['next_month'] = next_month(d)
+        
         cal = Calendar(d.year, d.month)
         cal.setfirstweekday(6)
 
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
         return context
+
+
+@login_required
+def home(request):
+    return render(request, 'home.html')
 
 
 def signup(request):

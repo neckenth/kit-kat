@@ -1,4 +1,3 @@
-from datetime import datetime as dt, timedelta
 from calendar import HTMLCalendar
 from .models import Request
 
@@ -12,10 +11,10 @@ class Calendar(HTMLCalendar):
         super(Calendar, self).__init__()
 
     def formatday(self, day, requests):
-        requests_per_day = Request.objects.filter(start_date__day=day)
+        requests_per_day = requests.filter(start_date__day=day)
         d = ''
         for request in requests_per_day:
-            d += f"<li>{request.title}</li>"
+            d += f"<li><a href='/kitkat/requests/{request.id}'>{request.title}</a></li>"
         if day != 0:
             return f"<td><span class='date'>{day}</span><ul>{d}</ul></td>"
         return '<td></td>'

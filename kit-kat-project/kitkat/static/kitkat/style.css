@@ -83,3 +83,22 @@ a {
 h2 {
     padding: 1rem;
 }
+
+.left {
+    float: left;
+  }
+  
+  .right {
+    float: right;
+  }
+  
+  .btn {
+    outline: none;
+    color: black;
+    background-color: transparent;
+    box-shadow: 0 0 0 0;
+  }
+  
+  .clearfix {
+    margin: 15px;
+  }
