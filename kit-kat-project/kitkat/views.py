@@ -8,6 +8,7 @@ from django.views import generic
 from .forms import SignUpForm, TimeOffRequestForm
 from .models import Profile, Request
 from .calendar import Calendar
+from .utils import filter_requests
 import calendar
 
 
@@ -27,7 +28,8 @@ def prev_month(date):
 def next_month(date):
     total_days_curr_month = calendar.monthrange(date.year, date.month)[1]
     first_day_curr_month = date.replace(day=1)
-    first_day_next_month = first_day_curr_month + timedelta(days=total_days_curr_month)
+    first_day_next_month = first_day_curr_month + \
+        timedelta(days=total_days_curr_month)
     return f"month={first_day_next_month.year}-{first_day_next_month.month}"
 
 
@@ -39,10 +41,10 @@ class CalendarView(generic.ListView):
         context = super().get_context_data(**kwargs)
 
         d = get_date(self.request.GET.get('month', None))
-        
+
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
-        
+
         cal = Calendar(d.year, d.month)
         cal.setfirstweekday(6)
 
@@ -89,8 +91,7 @@ def new_request(request):
 
 @login_required
 def index(request):
-    my_requests = Request.objects.filter(
-        user=Profile.objects.get(user=request.user)).order_by('-start_date')
+    my_requests = filter_requests(request.user)
     return render(request, 'requests.html', {"my_requests_list": my_requests})
 
 

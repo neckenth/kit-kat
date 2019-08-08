@@ -1,4 +1,6 @@
 from django.urls import path, include
+from django.contrib.auth.decorators import login_required
+
 
 from . import views
 
@@ -9,5 +11,5 @@ urlpatterns = [
     path('requests/new/', views.new_request, name="new_request"),
     path('requests/', views.index, name='index'),
     path('requests/<int:req_id>/', views.detail, name='detail'),
-    path('calendar/', views.CalendarView.as_view(), name='calendar')
+    path('calendar/', login_required(views.CalendarView.as_view()), name='calendar')
 ]
