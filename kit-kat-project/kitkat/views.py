@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
 from django.http import HttpResponseRedirect
 from django.views import generic
-from .forms import SignUpForm, TimeOffRequestForm
+from .forms import SignUpForm, TimeOffRequestForm, RequestApprovalForm
 from .models import Profile, Request
 from .calendar import Calendar
 from .utils import filter_requests
@@ -99,3 +99,16 @@ def index(request):
 def detail(request, req_id):
     req = get_object_or_404(Request, pk=req_id)
     return render(request, 'one_request.html', {"this_request": req})
+
+
+@login_required
+def approve_request(request, req_id):
+    req = get_object_or_404(Request, pk=req_id)
+    if request.method == "POST":
+        form = RequestApprovalForm(request.POST, instance=req)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/kitkat/')
+    else:
+        form = RequestApprovalForm()
+        return render(request, 'request_approval.html', {'form': form, 'this_request': req})

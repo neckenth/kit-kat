@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Approve Request</h2>
+
+    <p>{{ this_request.title }}</p>
+    <p>starts: {{ this_request.start_date }}</p>
+    <p>ends: {{ this_request.end_date }}</p>
+    <p>details: {% if this_request.notes %} {{this_request.notes}} {% else %} None {% endif %}</p>
+    <form action="/kitkat/requests/{{ this_request.id }}/approve/" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+    </form>
+
+
+{% endblock %}

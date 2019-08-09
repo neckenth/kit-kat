@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
+from django.forms.widgets import NullBooleanSelect
 from django.contrib.auth.models import User
 from bootstrap_datepicker_plus import DateTimePickerInput
 from .models import Request
@@ -33,3 +34,12 @@ class TimeOffRequestForm(ModelForm):
             'end_date': DateTimePickerInput(format='%m/%d/%Y %H:%M')
         }
         exclude = ['hours', 'user']
+
+
+class RequestApprovalForm(ModelForm):
+    class Meta:
+        model = Request
+        fields = ["approved"]
+        widgets = {
+            "approved": NullBooleanSelect()
+        }
