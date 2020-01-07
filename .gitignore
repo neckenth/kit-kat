@@ -1,4 +1,5 @@
 .env
+/kit-kat-env
 .vscode
 *.pyc
 kit-kat.code-workspace
